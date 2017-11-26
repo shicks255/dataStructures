@@ -37,7 +37,7 @@ public class RunGame implements Runnable
 
     public boolean query(String query)
     {
-        System.out.println(query + "\r\n");
+        System.out.println(query);
         System.out.println("Type Y for 'yes' or N for 'no'.\r\n");
 
         String answer = key.nextLine();
@@ -86,7 +86,7 @@ public class RunGame implements Runnable
         System.out.println("Enter the animal you were thinking of.");
         String newAnimal = key.nextLine();
 
-        System.out.println("Now enter a question for this animal");
+        System.out.println("Now enter an affirmitive question for this animal");
         String newQuestion = key.nextLine();
 
         currentNode.setData(newQuestion);
