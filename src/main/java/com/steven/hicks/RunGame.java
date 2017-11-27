@@ -1,3 +1,5 @@
+package com.steven.hicks;
+
 import java.util.Scanner;
 
 public class RunGame implements Runnable
@@ -6,7 +8,8 @@ public class RunGame implements Runnable
 
     public void run()
     {
-        BTNode<String> root = initializeAnswerTree();
+//        BTNode<String> root = initializeAnswerTree();
+        BTNode<String> root = createTreeFromXML();
 
         printInstructions();
 
@@ -45,6 +48,12 @@ public class RunGame implements Runnable
             return true;
         else
             return false;
+    }
+
+    public BTNode<String> createTreeFromXML()
+    {
+
+        return null;
     }
 
     //:todo probably a better way to implement this

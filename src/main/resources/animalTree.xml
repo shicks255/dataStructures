@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tree>
+    <node root="true">
+        <question text="Are you a mammal?"/>
+        <left>
+            <node>
+                <question text="Are you bigger than a cat?"/>
+                <left>
+                    <node>
+                        <guess text="Kangaroo"/>
+                    </node>
+                </left>
+                <right>
+                    <node>
+                        <guess text="Mouse"/>
+                    </node>
+                </right>
+            </node>
+        </left>
+        <right>
+            <node>
+                <question text="Do you live underwater?"/>
+                <left>
+                    <node>
+                        <guess text="Trout"/>
+                    </node>
+                </left>
+                <right>
+                    <node>
+                        <guess text="Robin"/>
+                    </node>
+                </right>
+            </node>
+        </right>
+    </node>
+</tree>
+

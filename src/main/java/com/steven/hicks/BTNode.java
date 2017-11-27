@@ -1,5 +1,12 @@
-import sun.invoke.util.BytecodeName;
+package com.steven.hicks;
 
+
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
+
+//@XmlRootElement(name="node")
+//@XmlAccessorType(XmlAccessType.PROPERTY)
 public class BTNode<T>
 {
     private T data;
