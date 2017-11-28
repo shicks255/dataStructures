@@ -1,4 +1,4 @@
-package com.steven.hicks;
+package com.steven.hicks.trees;
 
 public class Main
 {

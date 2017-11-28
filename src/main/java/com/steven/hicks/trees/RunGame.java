@@ -1,4 +1,4 @@
-package com.steven.hicks;
+package com.steven.hicks.trees;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -82,23 +82,52 @@ public class RunGame implements Runnable
 
                 if (line.contains("<node"))
                 {
-                    root.setData(line.substring(line.indexOf("data=\"")+6, line.indexOf(">")-1));
+                    root.setData(line.substring(line.indexOf("data=\"")+5, line.indexOf(">")-1));
                 }
 
                 if (line.contains("<left"))
                 {
-                    lefts++;
                     BTNode<String> newLeft = new BTNode<String>();
-                    newLeft.setData(line.substring(line.indexOf("data=\"")+6, line.indexOf(">")-1));
-                    root.setLeft(newLeft);
+                    newLeft.setData(line.substring(line.indexOf("data=\"")+5, line.indexOf(">")-1));
+
+                    BTNode<String> cursor = null;
+                    BTNode<String> parent = root.getLeft();
+
+                    for (int i = 0; i<lefts; i++)
+                    {
+                        cursor = parent;
+                        parent = parent.getLeft();
+                    }
+
+                    if (cursor == null)
+                        root.setLeft(newLeft);
+                    else
+                        cursor.setLeft(newLeft);
+                    lefts++;
                 }
 
                 if (line.contains("<right"))
                 {
                     rights++;
                     BTNode<String> newRight = new BTNode<String>();
-                    newRight.setData(line.substring(line.indexOf("data=\"")+6, line.indexOf(">")-1));
-                    root.setRight(newRight);
+                    newRight.setData(line.substring(line.indexOf("data=\"")+5, line.indexOf(">")-1));
+
+                    BTNode<String> parent = null;
+                    BTNode<String> cursor = root.getRight();
+
+                    if (cursor == null)
+                    {
+                        root.setRight(newRight);
+                        continue;
+                    }
+
+                    while(cursor != null)
+                    {
+                        parent = cursor;
+                        cursor = cursor.getLeft();
+                    }
+
+                    parent.setRight(newRight);
                 }
             }
         }
