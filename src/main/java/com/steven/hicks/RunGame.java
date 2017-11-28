@@ -1,5 +1,9 @@
 package com.steven.hicks;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.Scanner;
 
 public class RunGame implements Runnable
@@ -52,6 +56,56 @@ public class RunGame implements Runnable
 
     public BTNode<String> createTreeFromXML()
     {
+        BTNode<String> root = null;
+
+        InputStream inputStream = Main.class.getResourceAsStream("../../../../classes/animalTree.xml");
+
+        root = parseXML();
+        return root;
+    }
+
+    private BTNode<String> parseXML()
+    {
+        InputStream inputStream = Main.class.getResourceAsStream("../../../../classes/animalTree.xml");
+        BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+
+        BTNode<String> root = new BTNode<String>();
+
+        int rights = 0;
+        int lefts = 0;
+
+        try
+        {
+            while (reader.ready())
+            {
+                String line = reader.readLine();
+
+                if (line.contains("<node"))
+                {
+                    root.setData(line.substring(line.indexOf("data=\"")+6, line.indexOf(">")-1));
+                }
+
+                if (line.contains("<left"))
+                {
+                    lefts++;
+                    BTNode<String> newLeft = new BTNode<String>();
+                    newLeft.setData(line.substring(line.indexOf("data=\"")+6, line.indexOf(">")-1));
+                    root.setLeft(newLeft);
+                }
+
+                if (line.contains("<right"))
+                {
+                    rights++;
+                    BTNode<String> newRight = new BTNode<String>();
+                    newRight.setData(line.substring(line.indexOf("data=\"")+6, line.indexOf(">")-1));
+                    root.setRight(newRight);
+                }
+            }
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
 
         return null;
     }

@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+    <xs:element name="questionTree">
+        <xs:complexType>
+            <xs:sequence minOccurs="0">
+                <xs:element name="node" type="nodeType"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:complexType name="nodeType">
+        <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element name="left" minOccurs="0" maxOccurs="1" type="nodeType" />
+            <xs:element name="right" minOccurs="0" maxOccurs="1" type="nodeType" />
+        </xs:sequence>
+        <xs:attribute name="data" type="xs:string" use="required"/>
+    </xs:complexType>
+
+</xs:schema>

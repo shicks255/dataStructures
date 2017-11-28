@@ -1,37 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<tree>
-    <node root="true">
-        <question text="Are you a mammal?"/>
-        <left>
-            <node>
-                <question text="Are you bigger than a cat?"/>
-                <left>
-                    <node>
-                        <guess text="Kangaroo"/>
-                    </node>
-                </left>
-                <right>
-                    <node>
-                        <guess text="Mouse"/>
-                    </node>
-                </right>
-            </node>
+
+<questionTree xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="animalTreeSchema.xsd">
+    <node data="Are you a mammal?" >
+        <left data="Are you bigger than a cat?" >
+            <left data="Kangaroo" />
+            <right data="Mouse" />
         </left>
-        <right>
-            <node>
-                <question text="Do you live underwater?"/>
-                <left>
-                    <node>
-                        <guess text="Trout"/>
-                    </node>
-                </left>
-                <right>
-                    <node>
-                        <guess text="Robin"/>
-                    </node>
-                </right>
-            </node>
+        <right data="Do you live underwater?" >
+            <left data="Trout" />
+            <right data="Robin" />
         </right>
     </node>
-</tree>
+</questionTree>
 
