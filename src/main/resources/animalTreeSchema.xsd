@@ -15,6 +15,8 @@
             <xs:element name="right" minOccurs="0" maxOccurs="1" type="nodeType" />
         </xs:sequence>
         <xs:attribute name="data" type="xs:string" use="required"/>
+        <xs:attribute name="id" type="xs:string" use="required"/>
+        <xs:attribute name="parentId" type="xs:string" use="required"/>
     </xs:complexType>
 
 </xs:schema>
