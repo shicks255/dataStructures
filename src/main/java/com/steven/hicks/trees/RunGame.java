@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 public class RunGame implements Runnable
@@ -71,8 +73,7 @@ public class RunGame implements Runnable
 
         BTNode<String> root = new BTNode<String>();
 
-        int rights = 0;
-        int lefts = 0;
+        Map<Integer, BTNode> allNodes = new HashMap<>();
 
         try
         {
@@ -90,44 +91,13 @@ public class RunGame implements Runnable
                     BTNode<String> newLeft = new BTNode<String>();
                     newLeft.setData(line.substring(line.indexOf("data=\"")+5, line.indexOf(">")-1));
 
-                    BTNode<String> cursor = null;
-                    BTNode<String> parent = root.getLeft();
-
-                    for (int i = 0; i<lefts; i++)
-                    {
-                        cursor = parent;
-                        parent = parent.getLeft();
-                    }
-
-                    if (cursor == null)
-                        root.setLeft(newLeft);
-                    else
-                        cursor.setLeft(newLeft);
-                    lefts++;
                 }
 
                 if (line.contains("<right"))
                 {
-                    rights++;
                     BTNode<String> newRight = new BTNode<String>();
                     newRight.setData(line.substring(line.indexOf("data=\"")+5, line.indexOf(">")-1));
 
-                    BTNode<String> parent = null;
-                    BTNode<String> cursor = root.getRight();
-
-                    if (cursor == null)
-                    {
-                        root.setRight(newRight);
-                        continue;
-                    }
-
-                    while(cursor != null)
-                    {
-                        parent = cursor;
-                        cursor = cursor.getLeft();
-                    }
-
-                    parent.setRight(newRight);
                 }
             }
         }
