@@ -1,5 +1,7 @@
 package com.steven.hicks.trees;
 
+import sun.invoke.util.BytecodeName;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -85,7 +87,10 @@ public class RunGame implements Runnable
                 {
                     root.setData(line.substring(line.indexOf("data=\"")+5, line.indexOf(">")-1));
                     String id = line.substring(line.indexOf("id=\"")+4, line.indexOf("id=\"")+8);
-                    String parent = line.substring(line.indexOf("parent=\"")+8, line.indexOf("parent\"") + 12);
+                    int theId = Integer.parseInt(id.trim());
+                    String parent = line.substring(line.indexOf("parentId=\"")+10, line.indexOf("parentId=\"") + 13);
+                    int theParent = Integer.parseInt(parent.trim());
+                    allNodes.put(theId, root);
                 }
 
                 if (line.contains("<left"))
@@ -93,15 +98,31 @@ public class RunGame implements Runnable
                     BTNode<String> newLeft = new BTNode<String>();
                     newLeft.setData(line.substring(line.indexOf("data=\"")+5, line.indexOf(">")-1));
                     String id = line.substring(line.indexOf("id=\"")+4, line.indexOf("id=\"")+8);
-                    String parent = line.substring(line.indexOf("parent=\"")+8, line.indexOf("parent=\"")+12);
+                    int theId = Integer.parseInt(id.trim());
+                    String parent = line.substring(line.indexOf("parentId=\"")+10, line.indexOf("parentId=\"")+13);
+                    int theParent = Integer.parseInt(parent.trim());
+                    BTNode<String> parentNode = allNodes.get(theParent);
+                    if (parentNode != null)
+                    {
+                        parentNode.setLeft(newLeft);
+                        allNodes.put(theId, newLeft);
+                    }
                 }
 
                 if (line.contains("<right"))
                 {
                     BTNode<String> newRight = new BTNode<String>();
                     newRight.setData(line.substring(line.indexOf("data=\"")+5, line.indexOf(">")-1));
-                    String id = line.substring(line.indexOf("id=\"")+4, line.indexOf("id\"")+8);
-                    String parent = line.substring(line.indexOf("parent=\"")+8, line.indexOf("parent=\"")+12);
+                    String id = line.substring(line.indexOf("id=\"")+4, line.indexOf("id=\"")+8);
+                    int theId = Integer.parseInt(id.trim());
+                    String parent = line.substring(line.indexOf("parentId=\"")+10, line.indexOf("parentId=\"")+13);
+                    int theParent = Integer.parseInt(parent.trim());
+                    BTNode<String> parentNode = allNodes.get(theParent);
+                    if (parentNode != null)
+                    {
+                        parentNode.setRight(newRight);
+                        allNodes.put(theId, newRight);
+                    }
                 }
             }
         }
