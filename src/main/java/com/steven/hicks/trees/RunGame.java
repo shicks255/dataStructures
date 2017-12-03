@@ -131,7 +131,7 @@ public class RunGame implements Runnable
             e.printStackTrace();
         }
 
-        return null;
+        return root;
     }
 
     //:todo probably a better way to implement this
