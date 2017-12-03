@@ -99,7 +99,7 @@ public class RunGame implements Runnable
                 if (line.contains("<right"))
                 {
                     BTNode<String> newRight = new BTNode<String>();
-                    newRight.setData(line.substring(line.indexOf("data=\"")+5, line.indexOf(">"b)-1));
+                    newRight.setData(line.substring(line.indexOf("data=\"")+5, line.indexOf(">")-1));
                     String id = line.substring(line.indexOf("id=\"")+4, line.indexOf("id\"")+8);
                     String parent = line.substring(line.indexOf("parent=\"")+8, line.indexOf("parent=\"")+12);
                 }
