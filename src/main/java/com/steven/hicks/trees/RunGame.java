@@ -68,7 +68,7 @@ public class RunGame implements Runnable
 
     private BTNode<String> parseXML()
     {
-        InputStream inputStream = Main.class.getResourceAsStream("../../../../classes/animalTree.xml");
+        InputStream inputStream = Main.class.getResourceAsStream("../../../../../classes/animalTree.xml");
         BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
 
         BTNode<String> root = new BTNode<String>();
@@ -84,20 +84,24 @@ public class RunGame implements Runnable
                 if (line.contains("<node"))
                 {
                     root.setData(line.substring(line.indexOf("data=\"")+5, line.indexOf(">")-1));
+                    String id = line.substring(line.indexOf("id=\"")+4, line.indexOf("id=\"")+8);
+                    String parent = line.substring(line.indexOf("parent=\"")+8, line.indexOf("parent\"") + 12);
                 }
 
                 if (line.contains("<left"))
                 {
                     BTNode<String> newLeft = new BTNode<String>();
                     newLeft.setData(line.substring(line.indexOf("data=\"")+5, line.indexOf(">")-1));
-
+                    String id = line.substring(line.indexOf("id=\"")+4, line.indexOf("id=\"")+8);
+                    String parent = line.substring(line.indexOf("parent=\"")+8, line.indexOf("parent=\"")+12);
                 }
 
                 if (line.contains("<right"))
                 {
                     BTNode<String> newRight = new BTNode<String>();
-                    newRight.setData(line.substring(line.indexOf("data=\"")+5, line.indexOf(">")-1));
-
+                    newRight.setData(line.substring(line.indexOf("data=\"")+5, line.indexOf(">"b)-1));
+                    String id = line.substring(line.indexOf("id=\"")+4, line.indexOf("id\"")+8);
+                    String parent = line.substring(line.indexOf("parent=\"")+8, line.indexOf("parent=\"")+12);
                 }
             }
         }
