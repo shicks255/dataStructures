@@ -2,13 +2,8 @@ package com.steven.hicks.trees;
 
 import sun.invoke.util.BytecodeName;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Scanner;
+import java.io.*;
+import java.util.*;
 
 public class RunGame implements Runnable
 {
@@ -16,7 +11,6 @@ public class RunGame implements Runnable
 
     public void run()
     {
-//        BTNode<String> root = initializeAnswerTree();
         BTNode<String> root = createTreeFromXML();
 
         printInstructions();
@@ -27,6 +21,68 @@ public class RunGame implements Runnable
         }
         while(query("Shall we play again?"));
 
+        try
+        {
+            File file = new File("src/main/resources/newAnimalTree.xml");
+            FileWriter fr = new FileWriter(file.getPath());
+            BufferedWriter writer = new BufferedWriter(fr);
+
+            writer.write("<?xml version=\"1.0\"?>");
+            writer.write("<questionTree xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:noNamespaceSchemaLocation=\"animalTreeSchema.xsd\">");
+
+            writer.write("<node id=\"1   \" parentId=\"1   \" data=\"" + root.getData() + "\">");
+
+            Set<Integer> usedIds = new HashSet<>();
+            int currentId = 1;
+            int currentParent = 1;
+
+            usedIds.add(currentId);
+
+            BTNode<String> currentNode = root;
+
+            test(writer, root, usedIds, currentId, currentParent);
+
+            writer.write("</node>");
+            writer.write("</questionTree>");
+
+            writer.close();
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+
+    }
+
+    public void test(BufferedWriter writer, BTNode<String> currentNode, Set<Integer> usedIds, int currentId, int currentParent) throws IOException
+    {
+        BTNode<String> testNode = currentNode;
+        if (testNode.getLeft() != null)
+        {
+            testNode = testNode.getLeft();
+            currentId = currentId+1;
+
+            while (!usedIds.add(currentId))
+                currentId++;
+
+            writer.write("<left id=\"" + currentId + "   \" parentId=\"" + currentParent + "   \" data=\"" + testNode.getData() + "\"/>");
+
+            test(writer, testNode, usedIds, currentId, currentId);
+        }
+
+        testNode = currentNode;
+        if (testNode.getRight() != null)
+        {
+            testNode = testNode.getRight();
+            currentId = currentId++;
+
+            while (!usedIds.add(currentId))
+                currentId++;
+
+            writer.write("<right id=\"" + currentId + "   \" parentId=\"" + currentParent + "   \" data=\"" + testNode.getData() + "\"/>");
+
+            test(writer, testNode, usedIds, currentId, currentId);
+        }
     }
 
     public void play(BTNode<String> currentNode)
@@ -70,7 +126,7 @@ public class RunGame implements Runnable
 
     private BTNode<String> parseXML()
     {
-        InputStream inputStream = Main.class.getResourceAsStream("../../../../../classes/animalTree.xml");
+        InputStream inputStream = Main.class.getResourceAsStream("../../../../../classes/newAnimalTree.xml");
         BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
 
         BTNode<String> root = new BTNode<String>();
@@ -85,10 +141,10 @@ public class RunGame implements Runnable
 
                 if (line.contains("<node"))
                 {
-                    root.setData(line.substring(line.indexOf("data=\"")+5, line.indexOf(">")-1));
+                    root.setData(line.substring(line.indexOf("data=\"")+6, line.indexOf(">")-1));
                     String id = line.substring(line.indexOf("id=\"")+4, line.indexOf("id=\"")+8);
                     int theId = Integer.parseInt(id.trim());
-                    String parent = line.substring(line.indexOf("parentId=\"")+10, line.indexOf("parentId=\"") + 13);
+                    String parent = line.substring(line.indexOf("parentId=\"")+10, line.indexOf("parentId=\"") + 14);
                     int theParent = Integer.parseInt(parent.trim());
                     allNodes.put(theId, root);
                 }
@@ -96,10 +152,10 @@ public class RunGame implements Runnable
                 if (line.contains("<left"))
                 {
                     BTNode<String> newLeft = new BTNode<String>();
-                    newLeft.setData(line.substring(line.indexOf("data=\"")+5, line.indexOf(">")-1));
+                    newLeft.setData(line.substring(line.indexOf("data=\"")+6, line.indexOf(">")-2));
                     String id = line.substring(line.indexOf("id=\"")+4, line.indexOf("id=\"")+8);
                     int theId = Integer.parseInt(id.trim());
-                    String parent = line.substring(line.indexOf("parentId=\"")+10, line.indexOf("parentId=\"")+13);
+                    String parent = line.substring(line.indexOf("parentId=\"")+10, line.indexOf("parentId=\"")+14);
                     int theParent = Integer.parseInt(parent.trim());
                     BTNode<String> parentNode = allNodes.get(theParent);
                     if (parentNode != null)
@@ -112,10 +168,10 @@ public class RunGame implements Runnable
                 if (line.contains("<right"))
                 {
                     BTNode<String> newRight = new BTNode<String>();
-                    newRight.setData(line.substring(line.indexOf("data=\"")+5, line.indexOf(">")-1));
+                    newRight.setData(line.substring(line.indexOf("data=\"")+6, line.indexOf(">")-2));
                     String id = line.substring(line.indexOf("id=\"")+4, line.indexOf("id=\"")+8);
                     int theId = Integer.parseInt(id.trim());
-                    String parent = line.substring(line.indexOf("parentId=\"")+10, line.indexOf("parentId=\"")+13);
+                    String parent = line.substring(line.indexOf("parentId=\"")+10, line.indexOf("parentId=\"")+14);
                     int theParent = Integer.parseInt(parent.trim());
                     BTNode<String> parentNode = allNodes.get(theParent);
                     if (parentNode != null)
