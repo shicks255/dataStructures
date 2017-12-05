@@ -1,7 +1,5 @@
 package com.steven.hicks.trees;
 
-import sun.invoke.util.BytecodeName;
-
 import java.io.*;
 import java.util.*;
 
@@ -26,21 +24,15 @@ public class RunGame implements Runnable
             File file = new File("src/main/resources/newAnimalTree.xml");
             FileWriter fr = new FileWriter(file.getPath());
             BufferedWriter writer = new BufferedWriter(fr);
-
-            writer.write("<?xml version=\"1.0\"?>");
-            writer.write("<questionTree xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:noNamespaceSchemaLocation=\"animalTreeSchema.xsd\">");
-
-            writer.write("<node id=\"1   \" parentId=\"1   \" data=\"" + root.getData() + "\">");
+            
+            writeNode(writer, root);
 
             Set<Integer> usedIds = new HashSet<>();
             int currentId = 1;
             int currentParent = 1;
-
             usedIds.add(currentId);
 
-            BTNode<String> currentNode = root;
-
-            test(writer, root, usedIds, currentId, currentParent);
+            writeLeftAndRightNodes(writer, root, usedIds, currentId, currentParent);
 
             writer.write("</node>");
             writer.write("</questionTree>");
@@ -54,34 +46,35 @@ public class RunGame implements Runnable
 
     }
 
-    public void test(BufferedWriter writer, BTNode<String> currentNode, Set<Integer> usedIds, int currentId, int currentParent) throws IOException
+    public void writeNode(BufferedWriter writer, BTNode<String> root) throws IOException
+    {
+        writer.write("<?xml version=\"1.0\"?>");
+        writer.write("<questionTree xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:noNamespaceSchemaLocation=\"animalTreeSchema.xsd\">");
+        writer.write("<node id=\"1   \" parentId=\"1   \" data=\"" + root.getData() + "\">");
+    }
+    
+    public void writeLeftAndRightNodes(BufferedWriter writer, BTNode<String> currentNode, Set<Integer> usedIds, int currentId, int currentParent) throws IOException
     {
         BTNode<String> testNode = currentNode;
         if (testNode.getLeft() != null)
         {
             testNode = testNode.getLeft();
-            currentId = currentId+1;
-
             while (!usedIds.add(currentId))
                 currentId++;
 
             writer.write("<left id=\"" + currentId + "   \" parentId=\"" + currentParent + "   \" data=\"" + testNode.getData() + "\"/>");
-
-            test(writer, testNode, usedIds, currentId, currentId);
+            writeLeftAndRightNodes(writer, testNode, usedIds, currentId, currentId);
         }
 
         testNode = currentNode;
         if (testNode.getRight() != null)
         {
             testNode = testNode.getRight();
-            currentId = currentId++;
-
             while (!usedIds.add(currentId))
                 currentId++;
 
             writer.write("<right id=\"" + currentId + "   \" parentId=\"" + currentParent + "   \" data=\"" + testNode.getData() + "\"/>");
-
-            test(writer, testNode, usedIds, currentId, currentId);
+            writeLeftAndRightNodes(writer, testNode, usedIds, currentId, currentId);
         }
     }
 
@@ -191,6 +184,7 @@ public class RunGame implements Runnable
     }
 
     //:todo probably a better way to implement this
+    @Deprecated
     public BTNode<String> initializeAnswerTree()
     {
         final String ROOT_QUESTION = "Are you a mammal?";
