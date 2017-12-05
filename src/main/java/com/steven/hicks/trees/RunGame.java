@@ -34,8 +34,8 @@ public class RunGame implements Runnable
 
             writeLeftAndRightNodes(writer, root, usedIds, currentId, currentParent);
 
-            writer.write("</node>");
-            writer.write("</questionTree>");
+            writer.write("\r\n\t\t</node>");
+            writer.write("\r\n\t</questionTree>");
 
             writer.close();
         }
@@ -49,8 +49,8 @@ public class RunGame implements Runnable
     public void writeNode(BufferedWriter writer, BTNode<String> root) throws IOException
     {
         writer.write("<?xml version=\"1.0\"?>");
-        writer.write("<questionTree xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:noNamespaceSchemaLocation=\"animalTreeSchema.xsd\">");
-        writer.write("<node id=\"1   \" parentId=\"1   \" data=\"" + root.getData() + "\">");
+        writer.write("\r\n\t<questionTree xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:noNamespaceSchemaLocation=\"animalTreeSchema.xsd\">");
+        writer.write("\r\n\t\t<node id=\"1   \" parentId=\"1   \" data=\"" + root.getData() + "\">");
     }
     
     public void writeLeftAndRightNodes(BufferedWriter writer, BTNode<String> currentNode, Set<Integer> usedIds, int currentId, int currentParent) throws IOException
@@ -62,7 +62,7 @@ public class RunGame implements Runnable
             while (!usedIds.add(currentId))
                 currentId++;
 
-            writer.write("<left id=\"" + currentId + "   \" parentId=\"" + currentParent + "   \" data=\"" + testNode.getData() + "\"/>");
+            writer.write("\r\n\t\t\t<left id=\"" + currentId + "   \" parentId=\"" + currentParent + "   \" data=\"" + testNode.getData() + "\"/>");
             writeLeftAndRightNodes(writer, testNode, usedIds, currentId, currentId);
         }
 
@@ -73,7 +73,7 @@ public class RunGame implements Runnable
             while (!usedIds.add(currentId))
                 currentId++;
 
-            writer.write("<right id=\"" + currentId + "   \" parentId=\"" + currentParent + "   \" data=\"" + testNode.getData() + "\"/>");
+            writer.write("\r\n\t\t\t<right id=\"" + currentId + "   \" parentId=\"" + currentParent + "   \" data=\"" + testNode.getData() + "\"/>");
             writeLeftAndRightNodes(writer, testNode, usedIds, currentId, currentId);
         }
     }
